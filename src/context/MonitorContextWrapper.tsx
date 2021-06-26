@@ -1,5 +1,5 @@
 import React, { createContext } from 'react';
-import useMonitor, { IMonitorContext } from '../hooks/useMonitor';
+import useMonitor, { IMonitorContext } from '../hooks/UseMonitor';
 
 interface MonitorContextWrapperProps {
   children: JSX.Element | JSX.Element[],

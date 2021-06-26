@@ -1,5 +1,6 @@
 import React, { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { MonitorContext } from '../context/MonitorContextWrapper';
+import processAudio from '../util/ProcessAudio';
 import AudioVisualizer from './AudioVisualizer';
 
 function AudioAnalyser(): JSX.Element {
@@ -49,6 +50,7 @@ function AudioAnalyser(): JSX.Element {
       setAnalyser(null);
       setStream(null);
       setSource(null);
+      setAudioData(new Uint8Array());
     }
 
     if (!monitoringActive) {
@@ -66,6 +68,9 @@ function AudioAnalyser(): JSX.Element {
 
   useEffect(() => {
     // TODO: Analyze volume and play noise
+    if (audioData[0] > 175) {
+      processAudio(audioData, monitorContext);
+    }
   }, [audioData]);
 
   const fetchAudioData = useCallback(() => {

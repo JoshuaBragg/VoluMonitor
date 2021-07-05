@@ -8,10 +8,6 @@ interface MonitorContextWrapperProps {
 export const MonitorContext = createContext<IMonitorContext>({
   threshold: 0,
   setThreshold: () => { },
-  frequency: 0,
-  setFrequency: () => { },
-  duration: 0,
-  setDuration: () => { },
   volume: 0,
   setVolume: () => { },
 });

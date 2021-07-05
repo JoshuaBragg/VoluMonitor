@@ -67,10 +67,7 @@ function AudioAnalyser(): JSX.Element {
   }, [analyser]);
 
   useEffect(() => {
-    // TODO: Analyze volume and play noise
-    if (audioData[0] > 175) {
-      processAudio(audioData, monitorContext);
-    }
+    processAudio(audioData, monitorContext);
   }, [audioData]);
 
   const fetchAudioData = useCallback(() => {

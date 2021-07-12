@@ -81,9 +81,9 @@ function AudioAnalyser(): JSX.Element {
   }, [analyser]);
 
   return (
-    <div>
+    <div className="audio-analyser">
       <AudioVisualizer audioData={audioData} />
-      <button onClick={() => { setMonitoringActive(active => !active) }}>
+      <button className="audio-analyser__button" onClick={() => { setMonitoringActive(active => !active) }}>
         {
           monitoringActive ? 'Stop Monitoring' : 'Start Monitoring'
         }

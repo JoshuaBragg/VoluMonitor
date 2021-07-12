@@ -26,7 +26,7 @@ function AudioVisualizer({ audioData }: AudioVisualizerProps): JSX.Element {
     const sliceWidth = (width * 1.0) / audioData.length;
 
     context.lineWidth = 2;
-    context.strokeStyle = '#FF0000';
+    context.strokeStyle = '#d2daf0';
     context.clearRect(0, 0, width, height);
 
     context.beginPath();
@@ -44,8 +44,9 @@ function AudioVisualizer({ audioData }: AudioVisualizerProps): JSX.Element {
 
   return (
     <canvas
-      width="300"
-      height="300"
+      className="audio-visualizer"
+      width="600"
+      height="200"
       ref={canvas}
     />
   );

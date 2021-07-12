@@ -1,3 +1,13 @@
+@import 'global/Index.scss';
+@import 'styles/Index.scss';
+
 .app {
-  
+  background-color: $color-background;
+  width: 800px;
+  height: 500px;
+  text-align: center;
+
+  &__title {
+    margin: 25px 0;
+  }
 }

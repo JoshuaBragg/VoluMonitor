@@ -1,0 +1,13 @@
+.audio-analyser {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 40px;
+
+  &__button {
+    padding: 30px;
+    background-color: transparent;
+    border: 0;
+    cursor: pointer;
+  }
+}

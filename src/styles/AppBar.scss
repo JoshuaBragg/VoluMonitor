@@ -1,0 +1,19 @@
+.app-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  -webkit-app-region: drag;
+  cursor: drag;
+
+  display: flex;
+  justify-content: flex-end;
+  padding: 10px;
+
+  &__icon {
+    font-size: 25px;
+    margin: 0 5px;
+    -webkit-app-region: no-drag;
+    cursor: pointer;
+  }
+}

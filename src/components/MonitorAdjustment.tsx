@@ -20,24 +20,36 @@ function MonitorAdjustment(): JSX.Element {
 
   return (
     <div className="monitor-adjustment">
-      <input
-        className="monitor-adjustment__threshold"
-        type="range"
-        max={MAX_THRESHOLD}
-        min={MIN_THRESHOLD}
-        value={threshold}
-        onChange={handleThresholdChange}
-        step="1"
-      />
-      <input
-        className="monitor-adjustment__volume"
-        type="range"
-        max={MAX_VOLUME}
-        min={MIN_VOLUME}
-        value={volume}
-        onChange={handleVolumeChange}
-        step="0.01"
-      />
+      <div className="monitor-adjustment__control-container">
+        <label htmlFor="threshold">
+          Threshold: {threshold}
+        </label>
+        <input
+          id="threshold"
+          className="monitor-adjustment__threshold"
+          type="range"
+          max={MAX_THRESHOLD}
+          min={MIN_THRESHOLD}
+          value={threshold}
+          onChange={handleThresholdChange}
+          step="1"
+        />
+      </div>
+      <div className="monitor-adjustment__control-container">
+        <label htmlFor="volume">
+          Volume: {volume}
+        </label>
+        <input
+          id="volume"
+          className="monitor-adjustment__volume"
+          type="range"
+          max={MAX_VOLUME}
+          min={MIN_VOLUME}
+          value={volume}
+          onChange={handleVolumeChange}
+          step="0.01"
+        />
+      </div>
     </div>
   );
 }

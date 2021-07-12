@@ -12,4 +12,8 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.ts', '.jsx', '.tsx', '.css', '.scss']
   },
+  target: [
+    'electron-main',
+    'electron-renderer',
+  ],
 };

@@ -1,5 +1,5 @@
 {
-  "name": "volumonitor",
+  "name": "VoluMonitor",
   "productName": "VoluMonitor",
   "version": "1.0.0",
   "description": "Volume Monitor for Desktop",
@@ -19,12 +19,14 @@
   "license": "MIT",
   "config": {
     "forge": {
-      "packagerConfig": {},
+      "packagerConfig": {
+        "executableName": "VoluMonitor"
+      },
       "makers": [
         {
           "name": "@electron-forge/maker-squirrel",
           "config": {
-            "name": "volumonitor"
+            "name": "VoluMonitor"
           }
         },
         {

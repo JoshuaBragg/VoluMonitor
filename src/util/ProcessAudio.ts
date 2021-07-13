@@ -47,7 +47,6 @@ export default (audioData: Uint8Array, monitorContext: IMonitorContext): void =>
 
   const volume = rms(audioData);
 
-  console.log(volume);
   volumeHistory.push(volume);
   volumeHistory.shift();
 

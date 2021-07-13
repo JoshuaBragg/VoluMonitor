@@ -1,8 +1,8 @@
 {
   "name": "volumonitor",
-  "productName": "volumonitor",
+  "productName": "VoluMonitor",
   "version": "1.0.0",
-  "description": "My Electron application description",
+  "description": "Volume Monitor for Desktop",
   "main": ".webpack/main",
   "scripts": {
     "start": "electron-forge start",

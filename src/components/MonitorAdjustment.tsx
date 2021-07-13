@@ -22,7 +22,7 @@ function MonitorAdjustment(): JSX.Element {
     <div className="monitor-adjustment">
       <div className="monitor-adjustment__control-container">
         <label htmlFor="threshold">
-          Threshold: {threshold}
+          Threshold: {threshold - MIN_THRESHOLD}
         </label>
         <input
           id="threshold"
@@ -37,7 +37,7 @@ function MonitorAdjustment(): JSX.Element {
       </div>
       <div className="monitor-adjustment__control-container">
         <label htmlFor="volume">
-          Volume: {volume}
+          Volume: {Math.round(volume * 100)}%
         </label>
         <input
           id="volume"

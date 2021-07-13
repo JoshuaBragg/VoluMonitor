@@ -15,6 +15,7 @@ const createWindow = () => {
     maximizable: false,
     fullscreenable: false,
     frame: false,
+    transparent: true,
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
@@ -36,12 +37,20 @@ const createWindow = () => {
   ipcMain.on('window:close', () => {
     mainWindow.close();
   });
+
+  ipcMain.handle('get-user-path', () => app.getPath('userData'));
 };
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-app.on('ready', createWindow);
+if (process.platform === "linux") {
+  app.commandLine.appendSwitch('use-gl', 'desktop');
+  // app.disableHardwareAcceleration();
+  app.on('ready', () => setTimeout(createWindow, 750));
+} else {
+  app.on('ready', createWindow);
+}
 
 // Quit when all windows are closed, except on macOS. There, it's common
 // for applications and their menu bar to stay active until the user quits

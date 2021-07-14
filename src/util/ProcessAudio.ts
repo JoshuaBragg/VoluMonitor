@@ -51,6 +51,10 @@ export default (audioData: Uint8Array, monitorContext: IMonitorContext): void =>
   volumeHistory.shift();
 
   if (volumeHistory.reduce((sum, current) => sum + current, 0) > monitorContext.threshold) {
-    sineWave.play();
+    sineWave.play()
+      .then(() => {
+        volumeHistory.fill(0);
+      })
+      .catch(console.error);
   }
 };

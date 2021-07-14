@@ -17,54 +17,50 @@ function AudioAnalyser(): JSX.Element {
   const monitorContext = useContext(MonitorContext);
 
   useEffect(() => {
-    if (monitoringActive) {
-      if (!stream && !analyser) {
-        navigator.mediaDevices.getUserMedia({ audio: true, video: false })
-          .then((mediaStream: MediaStream) => {
-            const audioContext = new AudioContext();
+    navigator.mediaDevices.getUserMedia({ audio: true, video: false }).then(setStream);
 
-            const audioStream = audioContext.createMediaStreamSource(mediaStream);
-            const analyserNode = audioContext.createAnalyser();
+    navigator.mediaDevices.enumerateDevices().then(console.log)
 
-            audioStream.connect(analyserNode);
-
-            setAnalyser(analyserNode);
-            setStream(mediaStream);
-            setSource(audioStream);
-          })
-          .catch((err) => {
-            // TODO: Hot toast
-            console.error(err);
-          });
-      }
-    }
-
-    const cleanupMonitor = () => {
+    return () => {
       if (stream) {
         stream.getAudioTracks().forEach(track => track.stop());
       }
-
-      cancelAnimationFrame(animFrame.current);
-      analyser?.disconnect();
-      source?.disconnect();
-      setAnalyser(null);
-      setStream(null);
-      setSource(null);
-      setAudioData(new Uint8Array());
-    }
-
-    if (!monitoringActive) {
-      cleanupMonitor();
-    }
-
-    return cleanupMonitor;
-  }, [monitoringActive]);
+    };
+  }, []);
 
   useEffect(() => {
-    if (analyser) {
-      animFrame.current = requestAnimationFrame(fetchAudioData);
+    if (!stream) {
+      return;
     }
-  }, [analyser]);
+
+    const audioContext = new AudioContext();
+
+    const audioStream = audioContext.createMediaStreamSource(stream);
+    const analyserNode = audioContext.createAnalyser();
+
+    audioStream.connect(analyserNode);
+
+    setAnalyser(analyserNode);
+    setStream(stream);
+    setSource(audioStream);
+
+    return () => {
+      analyser?.disconnect();
+      source?.disconnect();
+    };
+  }, [stream]);
+
+  useEffect(() => {
+    if (monitoringActive) {
+      animFrame.current = requestAnimationFrame(fetchAudioData);
+    } else {
+      cancelAnimationFrame(animFrame.current);
+    }
+
+    return () => {
+      cancelAnimationFrame(animFrame.current);
+    };
+  }, [monitoringActive]);
 
   useEffect(() => {
     processAudio(audioData, monitorContext);

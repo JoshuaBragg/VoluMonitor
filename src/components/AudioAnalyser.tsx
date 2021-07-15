@@ -1,7 +1,6 @@
-import React, { useCallback, useContext, useEffect, useRef, useState } from 'react';
-import { MonitorContext } from '../context/MonitorContextWrapper';
-import processAudio from '../util/ProcessAudio';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import AudioVisualizer from './AudioVisualizer';
+import ProcessAudio from './ProcessAudio';
 
 function AudioAnalyser(): JSX.Element {
   const [monitoringActive, setMonitoringActive] = useState(false);
@@ -14,12 +13,8 @@ function AudioAnalyser(): JSX.Element {
 
   const animFrame = useRef(-1);
 
-  const monitorContext = useContext(MonitorContext);
-
   useEffect(() => {
     navigator.mediaDevices.getUserMedia({ audio: true, video: false }).then(setStream);
-
-    navigator.mediaDevices.enumerateDevices().then(console.log)
 
     return () => {
       if (stream) {
@@ -62,10 +57,6 @@ function AudioAnalyser(): JSX.Element {
     };
   }, [monitoringActive]);
 
-  useEffect(() => {
-    processAudio(audioData, monitorContext);
-  }, [audioData]);
-
   const fetchAudioData = useCallback(() => {
     const updatedData = new Uint8Array(analyser?.frequencyBinCount || 0);
 
@@ -79,6 +70,7 @@ function AudioAnalyser(): JSX.Element {
   return (
     <div className="audio-analyser">
       <AudioVisualizer audioData={audioData} />
+      <ProcessAudio audioData={audioData} />
       <button className="audio-analyser__button" onClick={() => { setMonitoringActive(active => !active) }}>
         {
           monitoringActive ? 'Stop Monitoring' : 'Start Monitoring'

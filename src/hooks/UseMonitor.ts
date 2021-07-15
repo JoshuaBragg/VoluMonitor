@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { MAX_THRESHOLD, MIN_THRESHOLD } from '../util/ProcessAudio';
+import { MAX_THRESHOLD, MIN_THRESHOLD } from '../constants/AudioConstants';
 import DataStore from '../util/DataStore';
 
 export const DATA_STORE_CONFIG_NAME = 'config';

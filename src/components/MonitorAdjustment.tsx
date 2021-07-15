@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { MonitorContext } from '../context/MonitorContextWrapper';
-import { MAX_THRESHOLD, MAX_VOLUME, MIN_THRESHOLD, MIN_VOLUME } from '../util/ProcessAudio';
+import { MAX_THRESHOLD, MAX_VOLUME, MIN_THRESHOLD, MIN_VOLUME } from '../constants/AudioConstants';
 
 function MonitorAdjustment(): JSX.Element {
   const {

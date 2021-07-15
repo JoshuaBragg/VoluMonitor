@@ -45,8 +45,8 @@ function AudioVisualizer({ audioData }: AudioVisualizerProps): JSX.Element {
   return (
     <canvas
       className="audio-visualizer"
-      width="600"
-      height="200"
+      width="550"
+      height="150"
       ref={canvas}
     />
   );

@@ -9,6 +9,10 @@ export interface IMonitorContext {
   setThreshold: Function,
   volume: number,
   setVolume: Function,
+  outputDevice: string,
+  setOutputDevice: Function,
+  inputDevice: string,
+  setInputDevice: Function,
 }
 
 export default (): IMonitorContext => {
@@ -21,12 +25,19 @@ export default (): IMonitorContext => {
   }).then((store: DataStore) => {
     setThreshold(store.get('threshold') as number);
     setVolume(store.get('volume') as number);
+    setOutputDevice(store.get('output-device') as string);
+    setInputDevice(store.get('input-device') as string);
+
     dataStore.current = store;
   });
 
   const dataStore = useRef<DataStore>();
+
   const [threshold, setThreshold] = useState(0);
   const [volume, setVolume] = useState(0);
+
+  const [outputDevice, setOutputDevice] = useState('');
+  const [inputDevice, setInputDevice] = useState('');
 
   useEffect(() => {
     dataStore.current?.set('threshold', threshold);
@@ -36,10 +47,22 @@ export default (): IMonitorContext => {
     dataStore.current?.set('volume', volume);
   }, [volume]);
 
+  useEffect(() => {
+    dataStore.current?.set('output-device', outputDevice);
+  }, [outputDevice]);
+
+  useEffect(() => {
+    dataStore.current?.set('input-device', inputDevice);
+  }, [inputDevice]);
+
   return {
     threshold,
     setThreshold,
     volume,
     setVolume,
+    outputDevice,
+    setOutputDevice,
+    inputDevice,
+    setInputDevice,
   };
 };

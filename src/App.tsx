@@ -8,11 +8,11 @@ import AppBar from './components/AppBar';
 function App(): JSX.Element {
   return (
     <div className="app">
-      <AppBar />
       <h1 className="app__title">
         VoluMonitor
       </h1>
       <MonitorContextWrapper>
+        <AppBar />
         <MonitorAdjustment />
         <AudioAnalyser />
       </MonitorContextWrapper>

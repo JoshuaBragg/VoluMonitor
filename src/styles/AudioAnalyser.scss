@@ -5,9 +5,14 @@
   margin-top: 40px;
 
   &__button {
+    margin-top: 20px;
     padding: 30px;
     background-color: transparent;
+    color: $color-text;
     border: 0;
     cursor: pointer;
+
+    font-size: 20px;
+    font-weight: 700;
   }
 }

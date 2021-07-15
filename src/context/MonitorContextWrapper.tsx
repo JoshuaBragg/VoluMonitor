@@ -10,6 +10,10 @@ export const MonitorContext = createContext<IMonitorContext>({
   setThreshold: () => { },
   volume: 0,
   setVolume: () => { },
+  outputDevice: 'default',
+  setOutputDevice: () => { },
+  inputDevice: 'default',
+  setInputDevice: () => { },
 });
 
 function MonitorContextWrapper({ children }: MonitorContextWrapperProps): JSX.Element {

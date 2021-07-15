@@ -1,4 +1,5 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useRef, useState } from 'react';
+import { MonitorContext } from '../context/MonitorContextWrapper';
 import AudioVisualizer from './AudioVisualizer';
 import ProcessAudio from './ProcessAudio';
 
@@ -13,15 +14,19 @@ function AudioAnalyser(): JSX.Element {
 
   const animFrame = useRef(-1);
 
+  const {
+    inputDevice,
+  } = useContext(MonitorContext);
+
   useEffect(() => {
-    navigator.mediaDevices.getUserMedia({ audio: true, video: false }).then(setStream);
+    navigator.mediaDevices.getUserMedia({ audio: { deviceId: inputDevice }, video: false }).then(setStream);
 
     return () => {
       if (stream) {
         stream.getAudioTracks().forEach(track => track.stop());
       }
     };
-  }, []);
+  }, [inputDevice]);
 
   useEffect(() => {
     if (!stream) {
@@ -58,6 +63,10 @@ function AudioAnalyser(): JSX.Element {
   }, [monitoringActive]);
 
   const fetchAudioData = useCallback(() => {
+    if (!monitoringActive) {
+      return;
+    }
+
     const updatedData = new Uint8Array(analyser?.frequencyBinCount || 0);
 
     analyser?.getByteTimeDomainData(updatedData);
@@ -65,7 +74,7 @@ function AudioAnalyser(): JSX.Element {
     setAudioData(updatedData);
 
     animFrame.current = requestAnimationFrame(fetchAudioData);
-  }, [analyser]);
+  }, [analyser, monitoringActive]);
 
   return (
     <div className="audio-analyser">

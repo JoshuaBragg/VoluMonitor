@@ -1,6 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { MonitorContext } from '../context/MonitorContextWrapper';
 
+declare global {
+  interface HTMLAudioElement { setSinkId: Function }
+}
+
 const sinWav = require('../static/audio/sin.wav');
 const sineWave = new Audio(sinWav.default);
 
@@ -17,6 +21,7 @@ function ProcessAudio({ audioData }: ProcessAudioProps): JSX.Element {
   const {
     volume,
     threshold,
+    outputDevice,
   } = useContext(MonitorContext);
 
   const [audioElement, setAudioElement] = useState(sineWave);
@@ -24,7 +29,7 @@ function ProcessAudio({ audioData }: ProcessAudioProps): JSX.Element {
   const [volumeHistory, setVolumeHistory] = useState(() => {
     const initHistory: Array<number> = [];
 
-    // Length of 20 is used for the history array, arbitrary but reasonable value
+    // Length of 20 is used for the history array, arbitrary but reasonable length
     for (let i = 0; i < 20; i++) {
       initHistory.push(0);
     }
@@ -56,6 +61,10 @@ function ProcessAudio({ audioData }: ProcessAudioProps): JSX.Element {
       sineWave.play().catch(console.error);
     }
   }, [volumeHistory]);
+
+  useEffect(() => {
+    audioElement.setSinkId(outputDevice);
+  }, [outputDevice]);
 
   return (<></>);
 }

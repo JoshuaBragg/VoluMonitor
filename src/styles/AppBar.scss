@@ -5,9 +5,10 @@
   right: 0;
   -webkit-app-region: drag;
   cursor: drag;
+  z-index: 100;
 
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   padding: 10px;
 
   &__icon {
@@ -15,5 +16,15 @@
     margin: 0 5px;
     -webkit-app-region: no-drag;
     cursor: pointer;
+  }
+
+  &__modal-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: transparentize($color: $color-background, $amount: 0.5);
+    border-radius: 10px;
   }
 }

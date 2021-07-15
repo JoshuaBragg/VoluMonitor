@@ -24,7 +24,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: transparentize($color: $color-background, $amount: 0.5);
+    background-color: transparentize($color: $color-background, $amount: 0.1);
     border-radius: 10px;
   }
 }

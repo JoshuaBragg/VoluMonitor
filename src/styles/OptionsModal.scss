@@ -22,16 +22,40 @@
     margin: 10px 0;
 
     label {
-      width: 35%;
+      width: 30%;
     }
 
     .options-modal__select {
-      width: 85%;
+      width: 70%;
     }
   }
 
   &__title {
     margin: 0 0 20px;
+  }
+
+  &__spacer {
+    margin-top: 20px;
+  }
+
+  &__file-dialog-button {
+    width: 40%;
+    margin: 10px 5px 0 0;
+    padding: 5px;
+    background-color: $color-text;
+    color: $color-background;
+    border: none;
+    cursor: pointer;
+  }
+
+  &__file-input-wrapper {
+    text-align: left;
+    width: 357px;
+  }
+
+  &__currently-selected-audio-clip {
+    text-overflow: ellipsis;
+    overflow: hidden;
   }
 }
 

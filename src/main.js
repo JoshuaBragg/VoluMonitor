@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain } = require('electron');
+const { app, BrowserWindow, ipcMain, dialog } = require('electron');
 const path = require('path');
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
@@ -30,15 +30,7 @@ const createWindow = () => {
   // Open the DevTools.
   mainWindow.webContents.openDevTools();
 
-  ipcMain.on('window:minimize', () => {
-    mainWindow.minimize();
-  });
-
-  ipcMain.on('window:close', () => {
-    mainWindow.close();
-  });
-
-  ipcMain.handle('get-user-path', () => app.getPath('userData'));
+  setupIPC(mainWindow);
 };
 
 // This method will be called when Electron has finished
@@ -71,3 +63,31 @@ app.on('activate', () => {
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and import them here.
+const setupIPC = (window) => {
+  ipcMain.on('window:minimize', () => {
+    window.minimize();
+  });
+
+  ipcMain.on('window:close', () => {
+    window.close();
+  });
+
+  ipcMain.handle('get-user-path', () => app.getPath('userData'));
+
+  ipcMain.handle('get-file-path', () => {
+    return dialog.showOpenDialogSync(window, {
+      title: 'Select Audio File',
+      filters: [{
+        name: 'Audio Files',
+        extensions: [
+          'mp3',
+          'wav',
+          'ogg',
+        ],
+      }],
+      properties: [
+        'openFile',
+      ],
+    });
+  });
+};

@@ -1,17 +1,13 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { MonitorContext } from '../context/MonitorContextWrapper';
-
-declare global {
-  interface HTMLAudioElement { setSinkId: Function }
-}
+import { convertAudioFileToDataUrl, rms } from '../util/AudioHelpers';
 
 const sinWav = require('../static/audio/sin.wav');
 const sineWave = new Audio(sinWav.default);
 
-// https://en.wikipedia.org/wiki/Root_mean_square
-const rms = (audioData: Uint8Array): number => {
-  return Math.pow(audioData.map(n => n * n).reduce((sum: number, n: number) => sum + n, 0) / audioData.length, 0.5);
-};
+declare global {
+  interface HTMLAudioElement { setSinkId: Function }
+}
 
 interface ProcessAudioProps {
   audioData: Uint8Array,
@@ -22,6 +18,7 @@ function ProcessAudio({ audioData }: ProcessAudioProps): JSX.Element {
     volume,
     threshold,
     outputDevice,
+    audioClipPath,
   } = useContext(MonitorContext);
 
   const [audioElement, setAudioElement] = useState(sineWave);
@@ -39,6 +36,8 @@ function ProcessAudio({ audioData }: ProcessAudioProps): JSX.Element {
 
   useEffect(() => {
     audioElement.addEventListener('ended', () => setVolumeHistory(history => history.fill(0)));
+    audioElement.volume = volume;
+    audioElement.setSinkId(outputDevice);
   }, [audioElement]);
 
   useEffect(() => {
@@ -58,13 +57,28 @@ function ProcessAudio({ audioData }: ProcessAudioProps): JSX.Element {
 
   useEffect(() => {
     if (volumeHistory.reduce((sum, current) => sum + current, 0) > threshold) {
-      sineWave.play().catch(console.error);
+      audioElement.play().catch(console.error);
     }
   }, [volumeHistory]);
 
   useEffect(() => {
     audioElement.setSinkId(outputDevice);
   }, [outputDevice]);
+
+  useEffect(() => {
+    if (!audioClipPath) {
+      setAudioElement(sineWave);
+      return;
+    }
+
+    try {
+      const audioClip = new Audio(convertAudioFileToDataUrl(audioClipPath));
+
+      setAudioElement(audioClip);
+    } catch (err) {
+      console.error(err);
+    }
+  }, [audioClipPath]);
 
   return (<></>);
 }

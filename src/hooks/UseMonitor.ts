@@ -13,6 +13,8 @@ export interface IMonitorContext {
   setOutputDevice: Function,
   inputDevice: string,
   setInputDevice: Function,
+  audioClipPath: string,
+  setAudioClipPath: Function,
 }
 
 export default (): IMonitorContext => {
@@ -21,12 +23,16 @@ export default (): IMonitorContext => {
     defaults: {
       threshold: (MIN_THRESHOLD + MAX_THRESHOLD) / 2,
       volume: 0.5,
+      'output-device': 'default',
+      'input-device': 'default',
+      'audio-clip-path': '',
     },
   }).then((store: DataStore) => {
     setThreshold(store.get('threshold') as number);
     setVolume(store.get('volume') as number);
     setOutputDevice(store.get('output-device') as string);
     setInputDevice(store.get('input-device') as string);
+    setAudioClipPath(store.get('audio-clip-path') as string);
 
     dataStore.current = store;
   });
@@ -38,6 +44,8 @@ export default (): IMonitorContext => {
 
   const [outputDevice, setOutputDevice] = useState('');
   const [inputDevice, setInputDevice] = useState('');
+
+  const [audioClipPath, setAudioClipPath] = useState('');
 
   useEffect(() => {
     dataStore.current?.set('threshold', threshold);
@@ -55,6 +63,11 @@ export default (): IMonitorContext => {
     dataStore.current?.set('input-device', inputDevice);
   }, [inputDevice]);
 
+
+  useEffect(() => {
+    dataStore.current?.set('audio-clip-path', audioClipPath);
+  }, [audioClipPath]);
+
   return {
     threshold,
     setThreshold,
@@ -64,5 +77,7 @@ export default (): IMonitorContext => {
     setOutputDevice,
     inputDevice,
     setInputDevice,
+    audioClipPath,
+    setAudioClipPath,
   };
 };

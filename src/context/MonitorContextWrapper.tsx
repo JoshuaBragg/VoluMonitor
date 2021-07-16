@@ -14,6 +14,8 @@ export const MonitorContext = createContext<IMonitorContext>({
   setOutputDevice: () => { },
   inputDevice: 'default',
   setInputDevice: () => { },
+  audioClipPath: '',
+  setAudioClipPath: () => { },
 });
 
 function MonitorContextWrapper({ children }: MonitorContextWrapperProps): JSX.Element {

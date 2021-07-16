@@ -2,6 +2,8 @@ import React, { useContext, useEffect, useState } from 'react';
 import Select from 'react-select';
 import { MonitorContext } from '../context/MonitorContextWrapper';
 
+const ipcRenderer = window.require('electron').ipcRenderer;
+
 // Typescript type MediaDeviceKind
 enum AudioDeviceType {
   INPUT = 'audioinput',
@@ -19,6 +21,8 @@ function OptionsModal(): JSX.Element {
     setOutputDevice,
     inputDevice,
     setInputDevice,
+    audioClipPath,
+    setAudioClipPath,
   } = useContext(MonitorContext);
 
   const [inputDeviceOptions, setInputDeviceOptions] = useState<SelectOption[]>([]);
@@ -31,6 +35,17 @@ function OptionsModal(): JSX.Element {
 
   const handleInputDeviceChange = (selectedDevice: SelectOption) => {
     setInputDevice(selectedDevice.value);
+  };
+
+  const openFileSelectDialog = () => {
+    ipcRenderer.invoke('get-file-path')
+      .then((paths: string[] | undefined) => {
+        if (!paths || !paths.length) {
+          return;
+        }
+
+        setAudioClipPath(paths[0]);
+      });
   };
 
   useEffect(() => {
@@ -87,6 +102,29 @@ function OptionsModal(): JSX.Element {
           options={inputDeviceOptions}
           onChange={handleInputDeviceChange as any}
         />
+      </div>
+      <div className="options-modal__spacer"></div>
+      <div className="options-modal__input-wrapper">
+        <label htmlFor="audio-clip">
+          Alarm Sound
+        </label>
+        <div className="options-modal__file-input-wrapper">
+          <div className="options-modal__currently-selected-audio-clip">
+            Currently selected: {audioClipPath || 'Default'}
+          </div>
+          <button
+            className="options-modal__file-dialog-button"
+            onClick={openFileSelectDialog}
+          >
+            Choose File
+          </button>
+          <button
+            className="options-modal__file-dialog-button"
+            onClick={() => setAudioClipPath('')}
+          >
+            Reset to Default
+          </button>
+        </div>
       </div>
     </div>
   );

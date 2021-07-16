@@ -71,13 +71,7 @@ function ProcessAudio({ audioData }: ProcessAudioProps): JSX.Element {
       return;
     }
 
-    try {
-      const audioClip = new Audio(convertAudioFileToDataUrl(audioClipPath));
-
-      setAudioElement(audioClip);
-    } catch (err) {
-      console.error(err);
-    }
+    setAudioElement(new Audio(convertAudioFileToDataUrl(audioClipPath)));
   }, [audioClipPath]);
 
   return (<></>);

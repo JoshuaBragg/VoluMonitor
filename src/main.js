@@ -6,6 +6,11 @@ if (require('electron-squirrel-startup')) { // eslint-disable-line global-requir
   app.quit();
 }
 
+// Requires code signing
+// require('update-electron-app')({
+//   repo: 'JoshuaBragg/VoluMonitor',
+// });
+
 const createWindow = () => {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
@@ -20,6 +25,7 @@ const createWindow = () => {
       nodeIntegration: true,
       contextIsolation: false,
     },
+    icon: path.join(__dirname, 'static/images/VoluMonitorLogo256.png'),
   });
 
   mainWindow.removeMenu();
@@ -28,7 +34,7 @@ const createWindow = () => {
   mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
 
   // Open the DevTools.
-  mainWindow.webContents.openDevTools();
+  // mainWindow.webContents.openDevTools();
 
   setupIPC(mainWindow);
 };

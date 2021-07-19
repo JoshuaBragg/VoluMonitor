@@ -8,6 +8,7 @@
     "start": "electron-forge start",
     "package": "electron-forge package",
     "make": "electron-forge make",
+    "make-win": "electron-forge make -p win32",
     "publish": "electron-forge publish",
     "lint": "eslint src/**/*.ts src/**/*.tsx"
   },
@@ -106,6 +107,7 @@
     "path": "^0.12.7",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "react-select": "^4.3.1"
+    "react-select": "^4.3.1",
+    "update-electron-app": "^2.0.1"
   }
 }
